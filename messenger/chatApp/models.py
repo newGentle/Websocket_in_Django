@@ -38,3 +38,12 @@ class Rooms(models.Model):
 
         return f'{self.name}'
 
+
+class RoomCreator(models.Model):
+    creator = models.ForeignKey(Chat_Users, on_delete=models.CASCADE)
+    room = models.ManyToManyField(Rooms)
+
+    class Meta:
+        verbose_name = 'Создатель'
+        verbose_name_plural = 'Создатели'
+        

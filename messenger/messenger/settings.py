@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'chatApp',
     'rest_framework',
     'channels',
@@ -70,6 +71,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 # WSGI_APPLICATION = 'messenger.wsgi.application'
 ASGI_APPLICATION = 'messenger.asgi.application'
@@ -127,6 +129,10 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = 'rooms/'
+LOGIN_URL = '/login/'
 
 CHANNEL_LAYERS = {
     'default': {

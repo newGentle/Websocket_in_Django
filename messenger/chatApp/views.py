@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from rest_framework.views import APIView
 from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListAPIView 
 from rest_framework.response import Response
 from .serializers import MessagesSerializer, RoomsSerializer
 # from rest_framework.decorators import 
 from .models import Messages, Rooms
+from .forms import *
 # Create your views here.
 
 class MessagesApiView(ListAPIView):
@@ -38,3 +39,18 @@ def index(request):
 def room(request, slug):
     room = Rooms.objects.get(slug=slug)
     return render(request, template_name='room.html', context={'chat_room': room})
+
+
+
+def signup(request):
+    if request == 'POST':
+        form = CustomUserCreationForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+        return redirect('rooms')
+    else:
+        form = CustomUserCreationForm()
+        
+    return render(request, 'index.html', {'form': form})
+            
