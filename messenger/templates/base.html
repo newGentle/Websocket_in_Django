@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href={% static 'css/styles.css' %}>
     <title>{% block title %}{% endblock title %}</title>
-</head>
-<body>
-    <div class="container">
-        <nav>
-            
+  </head>
+  <body>
+    <div class="header bg-dark">
+      <div class="container">
+        <nav class="navbar navbar-dark bg-dark">
+          <a class="navbar-brand" href="#"> SimpleChat </a>
         </nav>
+      </div>
     </div>
-    {% block content %}{% endblock content %}
-    {% block scripts %}{% endblock scripts %}
-</body>
+    {% block content %} 
+    {% endblock content %} 
+    {% block scripts %} 
+    {% endblock scripts %}
+  </body>
 </html>

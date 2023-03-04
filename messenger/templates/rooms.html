@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}{% endblock title %}
+
+
+{% block content %}
+   
+{% if rooms %}
+{{ request.user.username|json_script:"user_username" }}
+{% comment %} {{ chat_box_name|json_script:"box-name" }} {% endcomment %}
+
+{{ rooms|json_script:'rooms'}}
+{% endif %}
+ 
+{% endblock content %}
+
+{% block scripts %}
+<script src={% static 'js/bootstrap.min.js' %}></script>
+<script src={% static 'js/scripts.js' %}></script>
+{% endblock scripts %}

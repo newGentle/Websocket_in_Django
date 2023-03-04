@@ -1,25 +1,25 @@
 from django.shortcuts import render, redirect
 from rest_framework.views import APIView
-from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListAPIView 
 from rest_framework.response import Response
 from .serializers import MessagesSerializer, RoomsSerializer
 # from rest_framework.decorators import 
 from .models import Messages, Rooms
-from .forms import *
+
+
 # Create your views here.
 
-class MessagesApiView(ListAPIView):
-    def get(self, request):
-        msg = Messages.objects.all()
-        return render(request, template_name='index.html',context={'msg': MessagesSerializer(msg, many=True).data})
+# class MessagesApiView(ListAPIView):
+#     def get(self, request):
+#         msg = Messages.objects.all()
+#         return render(request, template_name='index.html',context={'msg': MessagesSerializer(msg, many=True).data})
 
-    def post(self, request):
-        serializer = MessagesSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        return render(request, template_name="index.html" )
+#     def post(self, request):
+#         serializer = MessagesSerializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         return render(request, template_name="index.html" )
 
-    def put(self, response):
-        pass
+#     def put(self, response):
+#         pass
 
 class RoomsApiView(APIView):
     def get(self, request):
@@ -42,15 +42,3 @@ def room(request, slug):
 
 
 
-def signup(request):
-    if request == 'POST':
-        form = CustomUserCreationForm(request.POST)
-
-        if form.is_valid():
-            form.save()
-        return redirect('rooms')
-    else:
-        form = CustomUserCreationForm()
-        
-    return render(request, 'index.html', {'form': form})
-            
