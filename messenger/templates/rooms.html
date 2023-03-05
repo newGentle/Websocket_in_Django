@@ -1,11 +1,15 @@
-{% extends 'base.html' %}
 
+{% extends 'base.html' %}
+{% load static %}
 {% block title %}{% endblock title %}
 
 
 {% block content %}
-   
-{% if rooms %}
+
+   {{ chat_rooms }}
+{{ user.username}}
+{% if chat_rooms %}
+
 {{ request.user.username|json_script:"user_username" }}
 {% comment %} {{ chat_box_name|json_script:"box-name" }} {% endcomment %}
 

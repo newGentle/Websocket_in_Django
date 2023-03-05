@@ -6,7 +6,7 @@ from .forms import *
 # Create your views here.
 
 class SignUpView(CreateView):
-    success_url = '/accounts/login'
+    success_url = 'accounts/login/'
     template_name = 'allauth/account/signup.html'
     model = User
     form_class = CustomSignUpForm

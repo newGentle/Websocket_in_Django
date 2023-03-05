@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect
 from rest_framework.views import APIView
+from rest_framework.generics import ListCreateAPIView
 from rest_framework.response import Response
 from .serializers import MessagesSerializer, RoomsSerializer
 # from rest_framework.decorators import 
 from .models import Messages, Rooms
+from .forms import RoomForm
+from django.contrib.auth.models import User
 
 
 # Create your views here.
@@ -21,10 +24,9 @@ from .models import Messages, Rooms
 #     def put(self, response):
 #         pass
 
-class RoomsApiView(APIView):
-    def get(self, request):
-        rooms = Rooms.objects.all()
-        return Response({'rooms': RoomsSerializer(rooms, many=True).data})
+class RoomsApiView(ListCreateAPIView):
+    queryset = Rooms.objects.all()
+    serializer_class = RoomsSerializer
 
 
 class RoomApiView(APIView):
@@ -33,7 +35,9 @@ class RoomApiView(APIView):
         return Response({'room': RoomsSerializer(room).data})
 
 def index(request):
-    return render(request, template_name='index.html')
+    rooms = Rooms.objects.all().count()
+    users = User.objects.all().count()
+    return render(request, template_name='index.html', context={'chat_rooms_count': rooms, 'users_count': users})
 
 # @login_required
 def room(request, slug):
@@ -41,4 +45,10 @@ def room(request, slug):
     return render(request, template_name='room.html', context={'chat_room': room})
 
 
+def rooms(request):
+    rooms = Rooms.objects.all()
+    return render(request, template_name='rooms.html', context={'chat_rooms': rooms})
 
+def room_create(request):
+    form = RoomForm
+    return render(request, template_name='room_create.html', context={'form': form})

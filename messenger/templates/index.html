@@ -4,7 +4,11 @@
 
 {% block content %}
 <div class="container text-center text-light">
-    <h1>Добро пожаловать в SimpleChat</h1>
+    <h1 class="mt-5">Добро пожаловать в SimpleChat</h1>
+    <p class="mt-3">Количество чат-комнат - {{ chat_rooms_count}}</p>
+    <p class="mt-3">Количество пользователей - {{ users_count }}</p>
+    <a href={% url "room_create"%} class="btn btn-outline-success">Создать новую чат-комнату</a>
+    <a href={% url 'rooms' %} class="btn btn-outline-success">Перейти к списку чат-комнат</a>
 </div>
 
 {% endblock content %}

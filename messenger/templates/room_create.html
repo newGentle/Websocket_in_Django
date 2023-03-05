@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Создать комнату{% endblock title %}
+
+{% block content %}
+
+    
+    {{ form.as_p}}
+    <button id='btn'>Сохранить</button>
+
+
+{% endblock content %}
+{% block scripts %} 
+<script src={% static 'js/room_create.js'%}></script>
+{% endblock scripts %}
