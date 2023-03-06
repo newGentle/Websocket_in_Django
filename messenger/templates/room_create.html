@@ -4,10 +4,11 @@
 
 {% block content %}
 
-    
+    <form action="">
+    {% csrf_token %}
     {{ form.as_p}}
-    <button id='btn'>Сохранить</button>
-
+    <button type='submit'>Сохранить</button>
+    </form>
 
 {% endblock content %}
 {% block scripts %} 

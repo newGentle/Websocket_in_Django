@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from .models import Messages, Rooms, Chat_Users
+from .models import Messages, Rooms, UsersProfile
 
 
-class ChatUsersSerializer(serializers.ModelSerializer):
+class UsersProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Chat_Users
+        model = UsersProfile
         fields = ('__all__')
 
         

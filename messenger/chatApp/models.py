@@ -1,11 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
 
 
 # Create your models here.
-class Chat_Users(models.Model):
+class UsersProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(default=None)
+    avatar = models.ImageField(default=settings.MEDIA_URL + 'default.jpg', upload_to='media/avatar_img')
 
     class Meta:
         verbose_name = 'Пользователь'
@@ -13,7 +14,7 @@ class Chat_Users(models.Model):
 
 
 class Messages(models.Model):
-    author = models.ForeignKey(Chat_Users, on_delete=models.CASCADE)
+    author = models.ForeignKey(UsersProfile, on_delete=models.CASCADE)
     text = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     room = models.ForeignKey('Rooms', on_delete=models.CASCADE)
@@ -28,7 +29,8 @@ class Rooms(models.Model):
     name = models.CharField(max_length=64)
     slug = models.SlugField(unique=True)
     created = models.DateField(auto_now_add=True)
-    members = models.ManyToManyField(Chat_Users, blank=True)
+    members = models.ManyToManyField(UsersProfile, blank=True)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Комната'
@@ -38,12 +40,4 @@ class Rooms(models.Model):
 
         return f'{self.name}'
 
-
-class RoomCreator(models.Model):
-    creator = models.ForeignKey(Chat_Users, on_delete=models.CASCADE)
-    room = models.ManyToManyField(Rooms)
-
-    class Meta:
-        verbose_name = 'Создатель'
-        verbose_name_plural = 'Создатели'
         
