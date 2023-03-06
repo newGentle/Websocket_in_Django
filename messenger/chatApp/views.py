@@ -3,10 +3,9 @@ from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.response import Response
 from .serializers import MessagesSerializer, RoomsSerializer
-# from rest_framework.decorators import 
+from django.contrib.auth.decorators import login_required
 from .models import Messages, Rooms, UsersProfile
 from .forms import RoomForm
-from django.contrib.auth.models import User, AnonymousUser
 
 
 # Create your views here.
@@ -39,16 +38,16 @@ def index(request):
     users = UsersProfile.objects.all().count()
     return render(request, template_name='index.html', context={'chat_rooms_count': rooms, 'users_count': users})
 
-# @login_required
+@login_required(redirect_field_name='login')
 def room(request, slug):
     room = Rooms.objects.get(slug=slug)
     return render(request, template_name='room.html', context={'chat_room': room})
-
 
 def rooms(request):
     rooms = Rooms.objects.all()
     return render(request, template_name='rooms.html', context={'chat_rooms': rooms})
 
+@login_required(redirect_field_name='login')
 def room_create(request):
     form = RoomForm
     return render(request, template_name='room_create.html', context={'form': form})
