@@ -3,14 +3,16 @@
 {% block title %}Создать комнату{% endblock title %}
 
 {% block content %}
-
     <form action="">
-    {% csrf_token %}
-    {{ form.as_p}}
+        {% csrf_token %}
+        {{ form.name }}
     <button type='submit'>Сохранить</button>
     </form>
 
+{{ request.user.id|json_script:"user_id"}}
+
 {% endblock content %}
+
 {% block scripts %} 
 <script src={% static 'js/room_create.js'%}></script>
 {% endblock scripts %}

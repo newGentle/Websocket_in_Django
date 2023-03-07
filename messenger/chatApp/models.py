@@ -6,7 +6,7 @@ from django.conf import settings
 # Create your models here.
 class UsersProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(default=settings.MEDIA_URL + 'default.jpg', upload_to='media/avatar_img')
+    avatar = models.ImageField(default=settings.MEDIA_URL + 'default.jpg', upload_to='avatar_img')
 
     class Meta:
         verbose_name = 'Пользователь'
@@ -29,7 +29,7 @@ class Rooms(models.Model):
     name = models.CharField(max_length=64)
     slug = models.SlugField(unique=True)
     created = models.DateField(auto_now_add=True)
-    members = models.ManyToManyField(UsersProfile, blank=True)
+    members = models.ManyToManyField(UsersProfile, through='RoomsMembers', blank=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
@@ -39,5 +39,9 @@ class Rooms(models.Model):
     def __str__(self):
 
         return f'{self.name}'
+        
 
+class RoomsMembers(models.Model):
+    userProfile = models.ForeignKey(UsersProfile, on_delete=models.CASCADE)
+    chatRoom = models.ForeignKey(Rooms, on_delete=models.CASCADE)
         

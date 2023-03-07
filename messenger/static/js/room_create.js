@@ -1,12 +1,16 @@
 const form = document.querySelector('form');
+const user_id = document.getElementById('user_id');
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    // const name = document.getElementById('id_name');
-    // const slug = document.getElementById('id_slug');
-    // const params = {'name': name.value, 'slug': slug.value};
+    
     params = new FormData(form)
+    params.set('slug', params.get('name'));
+    params.set('creator', user_id.textContent)
+    // params.set('members', user_id.textContent)
+    // const params = {'name': name.value, 'slug': slug.value};
+
     console.log(...params)
     const response = fetch('http://127.0.0.1:8000/api/rooms/', {
         method: 'POST',

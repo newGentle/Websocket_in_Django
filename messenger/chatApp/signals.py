@@ -1,7 +1,7 @@
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.contrib.auth.models import User
 from django.dispatch import receiver
-from .models import UsersProfile
+from .models import UsersProfile, Rooms
 from django.conf import settings
 
 
@@ -15,3 +15,14 @@ def save_userprofile(sender, instance, **kwargs):
     if not instance.is_superuser:
         instance.usersprofile.save()
 
+@receiver(post_save, sender=Rooms)
+def save_room(sender, instance, **kwargs):
+    
+    
+    print(instance.creator.id)
+    Rooms.objects.get(id=instance.id).members.add(UsersProfile.objects.get(user_id = instance.creator.id))
+    print(kwargs)
+        
+    
+    # else:
+    #     print('blablabla')
