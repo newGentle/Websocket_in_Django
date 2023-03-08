@@ -1,15 +1,18 @@
 from rest_framework import serializers
 from .models import Messages, Rooms, UsersProfile
+from django.contrib.auth.models import User
+
+class UserNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username',)
 
 
 class UsersProfileSerializer(serializers.ModelSerializer):
+    username = UserNameSerializer(many=True, read_only=True)
     class Meta:
         model = UsersProfile
-        fields = ('__all__')
-    
-    # def to_representation(self, instance):
-    #     self.fields['members'] = MembersSerializer(many=True)
-    #     return super().to_representation(instance)
+        fields = ('avatar', 'username',)
 
         
 class MessagesSerializer(serializers.ModelSerializer):
@@ -19,7 +22,8 @@ class MessagesSerializer(serializers.ModelSerializer):
 
 
 class RoomsSerializer(serializers.ModelSerializer):
+    profile = UsersProfileSerializer(many=True, read_only=True)
     class Meta:
         model = Rooms
-        fields = ('__all__')
+        fields = ('slug', 'created', 'creator', 'profile','members')
         

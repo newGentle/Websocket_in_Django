@@ -10,10 +10,11 @@ if (checker) {
   
   const dt = fetch(`http://127.0.0.1:8000/api/rooms/${room}/?format=json`)
     .then((response) => {
+      console.log(response);
       return response.json();
     })
     .then((data) => {
-      console.log(data.room.members);
+      console.log(data);
       // for (let item of data.room) {
       //     let room = document.querySelector('.room');
       //     room.innerHTML += '<div>' + item + '</div>';

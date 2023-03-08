@@ -36,6 +36,7 @@ class RoomApiView(RetrieveUpdateDestroyAPIView):
     # serializer_class = RoomsSerializer
     def get(self, request, slug):
         room = Rooms.objects.get(slug=slug)
+        print(RoomsSerializer(room).data)
         return Response({'room': RoomsSerializer(room).data})
 
 
