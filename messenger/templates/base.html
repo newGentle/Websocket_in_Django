@@ -21,11 +21,15 @@
               {% if user.is_authenticated %}
                 <li class="nav-item me-3">
                   <div class='avatar'>
-                    <img src="media/{{ user.usersprofile.avatar }}" class="rounded-circle" alt="">
+                    {% if user.usersprofile.avatar == '/media/default.jpg' %}
+                      <img src="{{ user.usersprofile.avatar }}" class="rounded-circle" alt="">
+                      {% else %}
+                      <img src="/media/{{ user.usersprofile.avatar }}" class="rounded-circle" alt="">
+                    {% endif %}
                   </div>
                 </li>
                 <li class="nav-item"> 
-                  <a class="nav-link text-light btn btn-outline-success" aria-current="page" href="#">   
+                  <a class="nav-link text-light btn btn-outline-success" aria-current="page" href={% url 'profile' %}>   
                   <span class="">{{user.usersprofile.user}} &#x2699;</span></a>
                 </li>
               {% else %}

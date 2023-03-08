@@ -151,8 +151,8 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static/'),)
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGOUT_REDIRECT_URL = '/'
-LOGIN_REDIRECT_URL = 'rooms'
-LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = 'accounts/login/'
 
 ACCOUNT_FORMS = {'signup': 'account.forms.CustomSignUpForm'}
 

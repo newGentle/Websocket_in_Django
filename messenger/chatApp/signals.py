@@ -18,11 +18,5 @@ def save_userprofile(sender, instance, **kwargs):
 @receiver(post_save, sender=Rooms)
 def save_room(sender, instance, **kwargs):
     
-    
-    print(instance.creator.id)
     Rooms.objects.get(id=instance.id).members.add(UsersProfile.objects.get(user_id = instance.creator.id))
-    print(kwargs)
-        
     
-    # else:
-    #     print('blablabla')
