@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
 from rest_framework.views import APIView
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 from .serializers import MessagesSerializer, RoomsSerializer
 from django.contrib.auth.decorators import login_required, permission_required
-from .models import Messages, Rooms, UsersProfile
-from .forms import RoomForm, ProfileForm
+from .models import Messages, Rooms, UsersProfile, RoomsMembers
+from .forms import RoomForm, ProfileForm, EditProfileForm
 from django.contrib.auth.models import User, AnonymousUser
 
 
@@ -31,7 +31,9 @@ class RoomsApiView(ListCreateAPIView):
 
 
 
-class RoomApiView(APIView):
+class RoomApiView(RetrieveUpdateDestroyAPIView):
+    # queryset = Rooms.objects.all()
+    # serializer_class = RoomsSerializer
     def get(self, request, slug):
         room = Rooms.objects.get(slug=slug)
         return Response({'room': RoomsSerializer(room).data})
@@ -59,7 +61,22 @@ def room_create(request):
 
 @login_required
 def profile(request):
-    # avatar = UsersProfile.objects.get(user_id=request.user.id)
-    # username = User.objects.get(id=request.user.id)
     
-    return render(request, template_name='profile.html', context={'avatar': ProfileForm()})
+    if request.method == 'POST':
+        user_form = EditProfileForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.usersprofile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form = user_form.save()
+            profile_form = profile_form.save(commit=False)
+            profile_form.user = user_form
+            profile_form.save()
+            return redirect('/')
+    else:
+        user_form = EditProfileForm(instance=request.user)
+        profile_form = ProfileForm(instance=request.user.usersprofile)
+        args = {}
+        args['user_form'] = user_form
+        args['profile_form'] = profile_form
+        return render(request, template_name='profile.html', context=args)
+    

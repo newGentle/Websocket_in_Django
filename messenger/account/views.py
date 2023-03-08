@@ -15,4 +15,4 @@ class SignUpView(CreateView):
 class LoginView(View):
     model = User
     form_class = CustomSignUpForm
-    success_url = 'rooms'
+    success_url = '/'

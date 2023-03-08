@@ -3,24 +3,23 @@ const user_id = document.getElementById('user_id');
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
-
     
     params = new FormData(form)
     params.set('slug', params.get('name'));
     params.set('creator', user_id.textContent)
+    
 
-    // params.set('members', user_id.textContent)
-    // const params = {'name': name.value, 'slug': slug.value};
-    // console.log(...params)
+    const redirect_url = 'http://127.0.0.1:8000/rooms/'
+    const api_url = 'http://127.0.0.1:8000/api/rooms/'
 
-    const response = fetch('http://127.0.0.1:8000/api/rooms/', {
+    const response = fetch(api_url, {
         method: 'POST',
         body: params,
+        
     }).then((response) => {
         return response.json();
     }).then((data) => {
-        console.log(data);
-        
+        window.location.href = redirect_url + data.slug
     }).catch((err) => {
         console.log(err);
     }); 

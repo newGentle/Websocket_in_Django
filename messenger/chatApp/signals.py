@@ -20,3 +20,7 @@ def save_room(sender, instance, **kwargs):
     
     Rooms.objects.get(id=instance.id).members.add(UsersProfile.objects.get(user_id = instance.creator.id))
     
+def createProfile(sender, **kwargs):
+    if kwargs['created']:
+        user_profile = UsersProfile.objects.create(user=kwargs['instance'])
+        post_save.connect(createProfile, sender=User)

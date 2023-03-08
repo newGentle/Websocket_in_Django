@@ -1,15 +1,21 @@
-from django.forms.models import ModelForm
+from django import forms
 from .models import Rooms, UsersProfile
 from django.contrib.auth.models import User
 
 
-class RoomForm(ModelForm):
+class RoomForm(forms.ModelForm):
     class Meta:
         model = Rooms
         fields = ('name',)
 
 
-class ProfileForm(ModelForm):
+class EditProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('username',)
+
+
+class ProfileForm(forms.ModelForm):
     class Meta:
         model = UsersProfile
         fields = ('avatar',)

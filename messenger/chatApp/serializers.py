@@ -6,6 +6,10 @@ class UsersProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UsersProfile
         fields = ('__all__')
+    
+    # def to_representation(self, instance):
+    #     self.fields['members'] = MembersSerializer(many=True)
+    #     return super().to_representation(instance)
 
         
 class MessagesSerializer(serializers.ModelSerializer):

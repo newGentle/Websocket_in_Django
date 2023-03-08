@@ -3,7 +3,7 @@
 {% block title %}Создать комнату{% endblock title %}
 
 {% block content %}
-    <form action="">
+    <form action={% url 'rooms' %} >
         {% csrf_token %}
         {{ form.name }}
     <button type='submit'>Сохранить</button>

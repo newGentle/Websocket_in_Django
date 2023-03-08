@@ -6,7 +6,7 @@ from django.conf import settings
 # Create your models here.
 class UsersProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(default=settings.MEDIA_URL + 'default.jpg', upload_to='avatar_img')
+    avatar = models.ImageField(default='default.jpg', upload_to='avatar_img')
 
     class Meta:
         verbose_name = 'Пользователь'
