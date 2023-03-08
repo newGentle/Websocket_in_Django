@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from .serializers import MessagesSerializer, RoomsSerializer
 from django.contrib.auth.decorators import login_required, permission_required
 from .models import Messages, Rooms, UsersProfile
-from .forms import RoomForm, UserForm, ProfileForm
+from .forms import RoomForm, ProfileForm
 from django.contrib.auth.models import User, AnonymousUser
 
 
@@ -62,4 +62,4 @@ def profile(request):
     # avatar = UsersProfile.objects.get(user_id=request.user.id)
     # username = User.objects.get(id=request.user.id)
     
-    return render(request, template_name='profile.html', context={'username': UserForm, 'avatar': ProfileForm})
+    return render(request, template_name='profile.html', context={'avatar': ProfileForm()})

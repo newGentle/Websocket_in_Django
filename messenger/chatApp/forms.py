@@ -7,12 +7,6 @@ class RoomForm(ModelForm):
     class Meta:
         model = Rooms
         fields = ('name',)
-        
-
-class UserForm(ModelForm):
-    class Meta:
-        model = User
-        fileds = ('username',)
 
 
 class ProfileForm(ModelForm):
