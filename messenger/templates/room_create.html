@@ -9,7 +9,7 @@
     <button type='submit'>Сохранить</button>
     </form>
 
-{{ request.user.id|json_script:"user_id"}}
+{{ request.user.profile.id|json_script:"user_id"}}
 
 {% endblock content %}
 

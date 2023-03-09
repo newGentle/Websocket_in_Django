@@ -3,6 +3,6 @@ from . import consumers
 
 websocket_urlpatterns=[
                     re_path(
-                        r"ws/api/rooms/(?P<chat_room_name>\w+)/$", consumers.ChatRoomConsumers.as_asgi()
+                        r"ws/api/v1/rooms/(?P<chat_room_name>\w+)/$", consumers.ChatRoomConsumers.as_asgi()
                     ),
                 ]

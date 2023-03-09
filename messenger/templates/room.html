@@ -17,8 +17,12 @@
             </div>
         </div>
     </div>
+    {% for key, value in members %}
+        {{key.username }} {{ value.avatar}}
+    {% endfor %}
+    
     {{ request.user.username|json_script:"user_username" }}
-    {{ chat_room.slug|json_script:'room'}}
+    {{ chat_room.id|json_script:'room'}}
 
     <script src={% static 'js/bootstrap.min.js' %}></script>
     <script src={% static 'js/scripts.js' %}></script>

@@ -8,7 +8,7 @@ if (checker) {
   let c = JSON.parse(document.getElementById("user_username").textContent);
   const room = JSON.parse(document.getElementById("room").textContent);
   
-  const dt = fetch(`http://127.0.0.1:8000/api/rooms/${room}/?format=json`)
+  const dt = fetch(`http://127.0.0.1:8000/api/v1/rooms/${room}/?format=json`)
     .then((response) => {
       console.log(response);
       return response.json();
@@ -22,7 +22,7 @@ if (checker) {
     });
 
   const chatSocket = new WebSocket(
-    "ws://" + window.location.host + "/ws/api/rooms/" + room + "/"
+    "ws://" + window.location.host + "/ws/api/v1/rooms/" + room + "/"
   );
   chatSocket.onopen = (e) => {
     chatSocket.send(

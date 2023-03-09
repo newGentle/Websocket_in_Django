@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 from .serializers import MessagesSerializer, RoomsSerializer
 from django.contrib.auth.decorators import login_required, permission_required
-from .models import Messages, Rooms, UsersProfile, RoomsMembers
+from .models import Messages, Rooms, Profile, Members
 from .forms import RoomForm, ProfileForm, EditProfileForm
 from django.contrib.auth.models import User, AnonymousUser
 
@@ -25,30 +26,51 @@ from django.contrib.auth.models import User, AnonymousUser
 #         pass
 
 
-class RoomsApiView(ListCreateAPIView):
+class RoomsViewSet(ModelViewSet):
     queryset = Rooms.objects.all()
     serializer_class = RoomsSerializer
+    
+
+    # def retrieve(self, request, *args, **kwargs):
+    #     instance = self.get_object()
+    #     print(instance, kwargs)
+    #     return Response(self.serializer_class(instance).data)
+    
+
+# class RoomsApiView(ListCreateAPIView):
+#     queryset = Rooms.objects.all()
+#     serializer_class = RoomsSerializer
 
 
 
-class RoomApiView(RetrieveUpdateDestroyAPIView):
-    # queryset = Rooms.objects.all()
-    # serializer_class = RoomsSerializer
-    def get(self, request, slug):
-        room = Rooms.objects.get(slug=slug)
-        print(RoomsSerializer(room).data)
-        return Response({'room': RoomsSerializer(room).data})
+# class RoomApiView(APIView):
+#     # queryset = Rooms.objects.all()
+#     # serializer_class = RoomsSerializer
+#     def get(self, request, slug):
+#         room = Rooms.objects.get(slug=slug)
+#         print(RoomsSerializer(room).data)
+#         return Response({'room': RoomsSerializer(room).data})
 
 
 def index(request):
     rooms = Rooms.objects.all().count()
-    users = UsersProfile.objects.all().count()
+    users = Profile.objects.all().count()
     return render(request, template_name='index.html', context={'chat_rooms_count': rooms, 'users_count': users})
 
 @login_required
-def room(request, slug):
-    room = Rooms.objects.get(slug=slug)
-    return render(request, template_name='room.html', context={'chat_room': room})
+def room(request, pk):
+    room = Rooms.objects.get(pk=pk)
+    members = Members.objects.filter(chatRoom_id = pk)
+    # username = members
+    username = []
+    avatar = []
+    for item in members:
+        username += User.objects.filter(id=item.userProfile_id).values('username')
+        avatar += Profile.objects.filter(user_id=item.userProfile_id).values('avatar')
+    
+    profile = zip(username, avatar)
+    # print('test', members)
+    return render(request, template_name='room.html', context={'chat_room': room, 'members': profile})
 
 @login_required(login_url='/accounts/login/')
 def rooms(request):
@@ -65,7 +87,7 @@ def profile(request):
     
     if request.method == 'POST':
         user_form = EditProfileForm(request.POST, instance=request.user)
-        profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.usersprofile)
+        profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
 
         if user_form.is_valid() and profile_form.is_valid():
             user_form = user_form.save()
@@ -75,7 +97,7 @@ def profile(request):
             return redirect('/')
     else:
         user_form = EditProfileForm(instance=request.user)
-        profile_form = ProfileForm(instance=request.user.usersprofile)
+        profile_form = ProfileForm(instance=request.user.profile)
         args = {}
         args['user_form'] = user_form
         args['profile_form'] = profile_form

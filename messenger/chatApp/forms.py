@@ -1,5 +1,5 @@
 from django import forms
-from .models import Rooms, UsersProfile
+from .models import Rooms, Profile
 from django.contrib.auth.models import User
 
 
@@ -17,5 +17,5 @@ class EditProfileForm(forms.ModelForm):
 
 class ProfileForm(forms.ModelForm):
     class Meta:
-        model = UsersProfile
+        model = Profile
         fields = ('avatar',)
