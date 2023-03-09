@@ -10,11 +10,24 @@
 {{ user.username}} {% endcomment %}
 {% if chat_rooms %}
 <h3 class="text-center">Чат - комнаты</h3>
-   <div class="list-group ">
-      {% for item in chat_rooms %}
-         <a href={% url 'room' item.id %} class="list-group-item list-group-item-action list-group-item-dark">{{item.name}}</a>
-      {% endfor %}   
-   </div>
+
+<table class="table table-dark table-ms mt-2">
+   {% for item in chat_rooms %}
+      <tr>
+         
+         <td class="text-light"><a href={% url 'room' item.id %} class='btn btn-dark'>{{item.name}}</a></td>
+         <td></td>
+         <td></td>
+         {% if item.creator_id == request.user.id%}
+         {% csrf_token %}
+            <td class="text-end"> <a id={{ item.id }} class="btn btn-dark delete_room">&#128465;</a></td>
+         {% endif %}
+      </tr>
+   {% endfor %}   
+</table>
+
+
+
 {{ request.user.username|json_script:"user_username" }}
 {% comment %} {{ chat_box_name|json_script:"box-name" }} {% endcomment %}
 
@@ -24,3 +37,6 @@
 {% endif %}
  
 {% endblock content %}
+{% block scripts %}
+<script src={% static 'js/room_delete.js' %}></script>
+{% endblock scripts %}

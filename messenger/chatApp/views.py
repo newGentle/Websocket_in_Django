@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from .models import Messages, Rooms, Profile, Members
 from .forms import RoomForm, ProfileForm, EditProfileForm
 from django.contrib.auth.models import User, AnonymousUser
+from django.conf import settings
 
 
 # Create your views here.
@@ -61,6 +62,7 @@ def index(request):
 def room(request, pk):
     room = Rooms.objects.get(pk=pk)
     members = Members.objects.filter(chatRoom_id = pk)
+    messages = Messages.objects.filter(room=room)
     # username = members
     username = []
     avatar = []
@@ -69,8 +71,15 @@ def room(request, pk):
         avatar += Profile.objects.filter(user_id=item.userProfile_id).values('avatar')
     
     profile = zip(username, avatar)
+    media_url = settings.MEDIA_URL
+    context={
+        'chat_room': room, 
+        'members': profile, 
+        'media': media_url,
+        'messages': messages,
+        }
     # print('test', members)
-    return render(request, template_name='room.html', context={'chat_room': room, 'members': profile})
+    return render(request, template_name='room.html', context=context)
 
 @login_required(login_url='/accounts/login/')
 def rooms(request):

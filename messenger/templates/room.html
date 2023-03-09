@@ -1,13 +1,44 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block title %} {{ chat_room.name }} {% endblock title %}
 {% block content %}
     <div class="container">
-        <div class="row d-flex justify-content-center">
+        <div class="row mt-3">
             <div class="col-6">
+                <a href={% url 'rooms' %} class='btn btn-outline-success'> Выйти</a>
+            </div>
+            <div class="col-6"></div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-4">
+                
+                    <table class="table table-dark table-ms mt-2">
+                    {% for key, value in members %}
+                    
+                    <tr>
+                           
+                            <td class='fs-3 ps-3'><a href="#" class="text-decoration-none">{{ key.username }}</a></td>
+                        
+                            <td class="text-end pe-3">
+                                <div class='avatar'>
+                                    <img src="{{media}}{{ value.avatar}}" class="rounded-circle" alt="">
+                                </div>
+                            </td> 
+                        </tr>
+                    {% endfor %}
+                    </table>
+                    
+                    
+                
+            </div>
+            <div class="col-8">
                 <form>
-                    <div class="form-group">
-                        <label for="exampleFormControlTextarea1" class="h4 pt-5">{{ chat_room.name }}</label>
-                        <textarea class="form-control" id="chat-text" readonly rows="10"></textarea><br>
+                    <div class="form-group mt-2">
+                        <div id="chat-text">
+                            {% for message in messages %}
+                                {{ message.message_sender }} : {{message.message }} </br>
+                            {% endfor %}
+                        </div>
                     </div>
                     <div class="form-group">
                         <input class="form-control" placeholder="Enter text here" id="input" type="text"></br>
@@ -17,9 +48,7 @@
             </div>
         </div>
     </div>
-    {% for key, value in members %}
-        {{key.username }} {{ value.avatar}}
-    {% endfor %}
+
     
     {{ request.user.username|json_script:"user_username" }}
     {{ chat_room.id|json_script:'room'}}
