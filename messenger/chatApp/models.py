@@ -22,7 +22,7 @@ class Messages(models.Model):
     room = models.ForeignKey('Rooms', on_delete=models.CASCADE)
 
     class Meta:
-        ordering = ('-created',)
+        ordering = ('created',)
         verbose_name = 'Сообщение'
         verbose_name_plural = 'Сообщения'
 

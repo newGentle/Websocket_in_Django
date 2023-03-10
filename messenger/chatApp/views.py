@@ -1,14 +1,14 @@
 from django.shortcuts import render, redirect
-from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
-from .serializers import MessagesSerializer, RoomsSerializer
-from django.contrib.auth.decorators import login_required, permission_required
+from .serializers import  RoomsSerializer
+from django.contrib.auth.decorators import login_required
 from .models import Messages, Rooms, Profile, Members
 from .forms import RoomForm, ProfileForm, EditProfileForm
-from django.contrib.auth.models import User, AnonymousUser
+from django.contrib.auth.models import User
 from django.conf import settings
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.authentication import BasicAuthentication
 
 
 # Create your views here.
@@ -30,6 +30,8 @@ from django.conf import settings
 class RoomsViewSet(ModelViewSet):
     queryset = Rooms.objects.all()
     serializer_class = RoomsSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+    authentication_classes = (BasicAuthentication,)
     
 
     # def retrieve(self, request, *args, **kwargs):

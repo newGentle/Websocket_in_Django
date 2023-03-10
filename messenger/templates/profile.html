@@ -6,12 +6,12 @@
 
 {% block content %}
 
-
+<div class="profile mt-4">
 <form action="" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ user_form|crispy }}
-    {{ profile_form|crispy }}
+    {{ user_form.username|as_crispy_field }}
+    {{ profile_form.avatar|as_crispy_field }}
     <button type="submit" class="btn btn-outline-success">Сохранить</button>
 </form>
-
+</div>
 {% endblock content %}

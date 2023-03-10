@@ -26,10 +26,10 @@ class UsersProfileSerializer(serializers.ModelSerializer):
         fields = ('avatar',)
     
         
-class MessagesSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Messages
-        fields = ('__all__')
+# class MessagesSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Messages
+#         fields = ('__all__')
 
 
 class RoomsSerializer(serializers.ModelSerializer):
@@ -37,7 +37,7 @@ class RoomsSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Rooms
-        fields = ['name', 'creator']
+        fields = ('__all__')
         
     # def get_members(self, instance):
     #     room_members = instance

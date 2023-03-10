@@ -37,7 +37,7 @@ if (checker) {
     const data = JSON.parse(e.data);
     if (data.message) {
       document.querySelector("#chat-text").innerHTML +=
-        (data.username +': '+ data.message + '<br>');
+        ('<div class="rounded text-bg-secondary float-end">' + data.username +' : '+ data.message + '</div>');
     } else {
       alert("empty");
     }

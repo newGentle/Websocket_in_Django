@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 class RoomForm(forms.ModelForm):
     class Meta:
         model = Rooms
-        fields = ('name',)
+        fields = ('__all__')
 
 
 class EditProfileForm(forms.ModelForm):
@@ -18,4 +18,4 @@ class EditProfileForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('avatar',)
+        fields = ('__all__')
