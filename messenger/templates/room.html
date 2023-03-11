@@ -14,12 +14,16 @@
 
                 <div class="list-group mt-3">
                     {% for key, value in members %}
-                    <a class="list-group-item text-bg-dark list-group-item-action mb-2">
+                    {% if key.username == request.user.username %}
+                        <button class="list-group-item text-bg-dark list-group-item-action mb-2">
+                    {% else %}
+                        <button class="list-group-item text-bg-dark list-group-item-action mb-2 js_get-username">
+                    {% endif %}
                         <img src="{{media}}{{ value.avatar}}" alt="avatar">
                         
                         <span class="ms-2">{{ key.username }}</span>
-                        <span class="float-end btn btn-success js_get-username"> написать </span>
-                    </a>
+                        
+                    </button>
                     {% endfor %}
                 </div>
                 
@@ -35,8 +39,9 @@
                                     {% if message.message_sender.id == request.user.id %}
                                     <div class=' offset-md-8 col-md-4 mb-2 me-2'>
                                         <div class='p-2 rounded text-bg-dark'>
-                                        <p>{{ message.message_sender }}</p> 
-                                            {{message.message }}
+                                        <p class='float-end me-3'>{{ message.message_sender }}</p> <br>
+                                        <hr>
+                                            <p>{{message.message }}</p>
                                         </div>
                                     </div>
                                     
@@ -44,6 +49,7 @@
                                     <div class='col-md-4 mb-2 ms-2'>
                                         <div class='p-2 rounded text-bg-secondary'>
                                             <p>{{ message.message_sender }}</p> 
+                                            <hr>
                                             {{message.message }}
                                         </div>
                                     </div>

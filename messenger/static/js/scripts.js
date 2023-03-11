@@ -33,9 +33,13 @@ if (checker) {
     if (data.message) {
       let owner = 'offset-md-8 col-md-4 mb-2 me-2';
       let others = 'col-md-4 mb-2 ms-2';
-      let sender;
+      let sender = '';
+      let rightOwner = '' 
+      let br = '';
       if (username == data.username) {
         sender = owner;
+        rightOwner = 'class="float-end me-3"';
+        br = '<br>'
       }
       else {
         sender = others
@@ -45,7 +49,7 @@ if (checker) {
         "<div class='row'>" + 
         "<div class='" + sender +"'>" +
         "<div class='p-2 rounded text-bg-dark'>" +
-        "<p>" + data.username + "</p>" + 
+        "<p " + rightOwner + ">" + data.username + "</p> "+ br +"<hr>" + 
         data.message +
         "</div></div></div>"
         );
@@ -82,10 +86,14 @@ function ScrollingToBottom() {
 };
 
 const getUsername = (e) => {
-  if (e.target.className.includes('js_get-username').previousSibling.previousSibling){
-    console.log(e.target.textContent);
-  };
+  if (e.target.className.includes('js_get-username')){
+    const text = e.target.textContent.trim() + ' <= ';
+    document.getElementById('input').value = text
+    document.getElementById("input").focus();
+  }
+  
   // console.log(e.target.textContent);
 };
 
 window.addEventListener('click', getUsername);
+

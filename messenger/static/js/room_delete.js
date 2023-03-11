@@ -23,31 +23,13 @@ const onclick = (e) => {
 
 window.addEventListener('click', onclick)
 
-// delete_room_btn.onclick = function (e) {
-//     console.log(e);
-// }
-// delete_room_btn.addEventListener('click', (e) => {
-//     // e.preventDefault();
+const editRoom = (e) => {
     
-//     console.log('ok')
-    // params.set('id', params.get('id'));
-    // params.set('creator', user_id.textContent);
-    // params.set('slug', params.get('name'));
-    
-    // const redirect_url = 'http://127.0.0.1:8000/rooms/';
-    // const api_url = 'http://127.0.0.1:8000/api/v1/rooms/';
+    if (e.target.className.includes('edit_room')){
+      let roomName = e.target.getAttribute("data-room-name");
+      document.getElementById('edit_room_name').value = roomName;
+      
+      
+    }};
 
-    // const response = fetch(api_url, {
-    //     method: 'DELETE',
-    //     body: params,
-        
-    // }).then((response) => {
-        
-    //     return response.json();
-    // }).then((data) => {
-    //     window.location.href = redirect_url + data.id
-    //     console.log(data);
-    // }).catch((err) => {
-    //     console.log(err);
-    // }); 
-// });
+window.addEventListener('click', editRoom)
