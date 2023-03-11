@@ -24,20 +24,34 @@ if (checker) {
   const chatSocket = new WebSocket(
     "ws://" + window.location.host + "/ws/api/v1/rooms/" + room + "/"
   );
-  // chatSocket.onopen = (e) => {
-  //   chatSocket.send(
-  //     JSON.stringify({
-  //       username: "akbar",
-  //       message: "Hello",
-  //     })
-  //   );
-  // };
+  chatSocket.onopen = (e) => {
+    ScrollingToBottom();
+  };
 
   chatSocket.onmessage = function (e) {
     const data = JSON.parse(e.data);
     if (data.message) {
-      document.querySelector("#chat-text").innerHTML +=
-        ('<div class="rounded text-bg-secondary float-end">' + data.username +' : '+ data.message + '</div>');
+      let owner = 'offset-md-8 col-md-4 mb-2 me-2';
+      let others = 'col-md-4 mb-2 ms-2';
+      let sender;
+      if (username == data.username) {
+        sender = owner;
+      }
+      else {
+        sender = others
+      };
+      document.querySelector("#chat-text").querySelector('.container').innerHTML +=
+        (   
+        "<div class='row'>" + 
+        "<div class='" + sender +"'>" +
+        "<div class='p-2 rounded text-bg-dark'>" +
+        "<p>" + data.username + "</p>" + 
+        data.message +
+        "</div></div></div>"
+        );
+        
+        ScrollingToBottom();
+        document.getElementById("input").focus();
     } else {
       alert("empty");
     }
@@ -52,6 +66,7 @@ if (checker) {
         'room': room
       }));
     messageInput.value = '';
+    
     return false;
   };
   chatSocket.onclose = function (e) {
@@ -59,4 +74,18 @@ if (checker) {
   };
 
   // const jtext = JSON.parse(dt);
-}
+};
+
+function ScrollingToBottom() {
+  let messagesBox = document.getElementById('chat-text');
+  messagesBox.scrollTop = messagesBox.scrollHeight;
+};
+
+const getUsername = (e) => {
+  if (e.target.className.includes('js_get-username').previousSibling.previousSibling){
+    console.log(e.target.textContent);
+  };
+  // console.log(e.target.textContent);
+};
+
+window.addEventListener('click', getUsername);

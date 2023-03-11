@@ -54,6 +54,18 @@ class RoomsViewSet(ModelViewSet):
 #         print(RoomsSerializer(room).data)
 #         return Response({'room': RoomsSerializer(room).data})
 
+def joinToRoom(request, *args, **kwargs):
+    member = Profile.objects.get(id=request.user.id)
+    room = Rooms.objects.get(id=kwargs['pk'])
+    Members.objects.create(chatRoom=room, userProfile=member)
+    return redirect(f'/rooms/{kwargs["pk"]}/')
+
+def outFromRoom(request, *args, **kwargs):
+    member = Profile.objects.get(id=request.user.id)
+    room = Rooms.objects.get(id=kwargs['pk'])
+    Members.objects.filter(chatRoom=room, userProfile=member).delete()
+    
+    return redirect('rooms')
 
 def index(request):
     rooms = Rooms.objects.all().count()
@@ -86,7 +98,10 @@ def room(request, pk):
 @login_required(login_url='/accounts/login/')
 def rooms(request):
     rooms = Rooms.objects.all()
-    return render(request, template_name='rooms.html', context={'chat_rooms': rooms})
+    members = Members.objects.filter(userProfile_id=request.user.id).values_list('chatRoom_id', flat=True)
+    
+
+    return render(request, template_name='rooms.html', context={'chat_rooms': rooms, 'members': members})
 
 @login_required
 def room_create(request):

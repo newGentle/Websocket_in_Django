@@ -4,38 +4,35 @@ body  {
   background-color: #181818;
 }
 
-.avatar {
-  position: relative;
-  /* border: 2px solid black; */
-  height: 40px;
-  width: 40px;
-  display: inline-block;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.avatar > img {
-  opacity: 1;
-  position: absolute;
+img {
+ 
   max-height: 100%;
   max-width: 100%;
-  width: auto;
-  height: auto;
+  width: 46px;
+  height: 46px;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
   margin: auto;
+  border-radius: 50%;
 }
 
 #chat-text {
-  height: 600px;
-  overflow-y: auto;
+  height: 600px !important;
+  overflow-y: auto !important;
   
 }
 
 .profile {
-  
   max-width: 700px;
   margin: 0 auto;
+}
+
+table.chat_rooms {
+  margin: 0 auto;
+}
+
+.js_get-username:hover {
+  cursor: pointer;
 }

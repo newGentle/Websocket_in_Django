@@ -13,5 +13,8 @@ urlpatterns = [
     path('', index, name='index'),
     path('room_create', room_create, name='room_create'),
     path('profile', profile, name='profile'),
+    path('joinToRoom/<int:pk>', joinToRoom, name='joinToRoom'),
+    path('outFromRoom/<int:pk>', outFromRoom, name='outFromRoom'),
+    
 
 ]

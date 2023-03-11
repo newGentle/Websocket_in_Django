@@ -9,28 +9,35 @@
    {% comment %} {{ chat_rooms }}
 {{ user.username}} {% endcomment %}
 {% if chat_rooms %}
-<h3 class="text-center">Чат - комнаты</h3>
+<h3 class="text-center mt-4">Чат - комнаты</h3>
 
-<table class="table table-dark align-middle table-ms mt-2">
-   {% for item in chat_rooms %}
+<table class="table table-dark align-middle table-ms mt-2 w-75 mt-4 chat_rooms">
+   {% for room in chat_rooms %}
       <tr class="">
          
-         <td class="text-light ps-3 w-75">
-            {{item.name}} - Создал
-            <span>{{request.user.username}}</span>
+         <td class="text-light ps-3 w-75 fs-3">
+            {{room.name}} <br>
+            <span class='fs-6'>Создал - {{room.creator.username}}</span>
          </td>
-         <td><a href={% url 'room' item.id %} class='btn btn-outline-success'>Подключиться</a></td>
-         <td><a href={% url 'room' item.id %} class='btn btn-outline-success'>Войти</a></td>
-         {% if item.creator_id == request.user.id%}
-            <td class="text-end pe-3"> <a id={{ item.id }} class="btn btn-outline-danger delete_room">Удалить</a></td>
+         {% if room.id in members %}
+            {% if request.user.id == room.creator.id %}
+               <td><a href={% url 'outFromRoom' room.id %} class='btn btn-outline-secondary w-100 disabled' id='out_from_room'>Отключиться</a></td>
+            {% else %}
+               <td><a href={% url 'outFromRoom' room.id %} class='btn btn-outline-success w-100' id='out_from_room'>Отключиться</a></td>
+            {% endif %}
+            <td><a href={% url 'room' room.id %} class='btn btn-outline-success'>Войти</a></td>
          {% else %}
-         <td class="text-end pe-3"> <a id={{ item.id }} class="btn btn-outline-secondary disabled delete_room">Удалить</a></td>
+            <td><a href={% url 'joinToRoom' room.id %} class='btn btn-outline-success' id='join_to_room'>Подключиться</a></td>
+            <td><a href={% url 'room' room.id %} class='btn btn-outline-secondary disabled'>Войти</a></td>
+         {% endif %}
+         {% if room.creator_id == request.user.id%}
+            <td class="text-end pe-3"> <a id={{ room.id }} class="btn btn-outline-danger delete_room">Удалить</a></td>
+         {% else %}
+         <td class="text-end pe-3"> <a id={{ room.id }} class="btn btn-outline-secondary disabled delete_room">Удалить</a></td>
          {% endif %}
       </tr>
-   {% endfor %}   
+   {% endfor %}
 </table>
-
-
 
 {{ request.user.username|json_script:"user_username" }}
 {% comment %} {{ chat_box_name|json_script:"box-name" }} {% endcomment %}
@@ -42,5 +49,6 @@
  
 {% endblock content %}
 {% block scripts %}
+<script src={% static 'js/join_and_out.js' %}></script>
 <script src={% static 'js/room_delete.js' %}></script>
 {% endblock scripts %}
