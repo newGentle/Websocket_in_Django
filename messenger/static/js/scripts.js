@@ -65,12 +65,7 @@ if (checker) {
       alert("empty");
     }
   };
-  document.getElementById('input').onkeydown = (e) => {
-    if (e.code == 'Enter') {
-      console.log('ok');
-      document.getElementById('submit').click();
-    }
-  };
+
   document.querySelector("#submit").onclick = (e) => {
     e.preventDefault();
     const messageInput = document.querySelector("#input")
@@ -108,3 +103,9 @@ const getUsername = (e) => {
 
 window.addEventListener('click', getUsername);
 
+document.getElementById('input').onkeyup = (e) => {
+  if (e.code == 'Enter') {
+    console.log('ok');
+    document.getElementById('submit').click();
+  }
+};
