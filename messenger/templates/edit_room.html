@@ -7,11 +7,12 @@
 
 {% block content %}
 <form action={% url 'rooms' %} >
+    
     {% csrf_token %}
     {{ form.name|as_crispy_field }}
     
-<button class="btn btn-outline-success" type='submit'>Сохранить</button>
-<button class="btn btn-outline-danger" type='button' id='delete_room'>Удалить</button>
+<button class="btn btn-outline-success" type='submit' id='edit_room'>Сохранить</button>
+<button class="btn btn-outline-danger" type='submit' id='delete_room'>Удалить</button>
 </form>
 {{ room_id|json_script:'room_id'}}
 {% endblock content %}

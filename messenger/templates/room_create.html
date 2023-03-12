@@ -8,6 +8,7 @@
         {% csrf_token %}
         {{ form.name|as_crispy_field }}
     <button class="btn btn-outline-success" type='submit'>Сохранить</button>
+    <a href='/' class="btn btn-outline-success" >Назад</a>
     </form>
 
 {{ request.user.profile.id|json_script:"user_id"}}

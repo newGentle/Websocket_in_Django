@@ -20,7 +20,7 @@
          
          <td class="text-light ps-3 w-75 fs-3 ">
             {{room.name}} <br>
-            <span class='fs-6'>Создал - {{room.creator.username}}</span>
+            <span class='fs-6'>Админ - {{room.creator.username}}</span>
          </td>
          {% if room.id in members %}
             {% if request.user.id == room.creator.id %}

@@ -1,41 +1,43 @@
 const room_id = document.getElementById('room_id');
-const form = document.querySelector('form');
 
 const redirect_url = 'http://127.0.0.1:8000/rooms/';
-const api_url = `http://127.0.0.1:8000/api/v1/rooms/${room_id.textContent}/?format=json`;
+const api_url = `http://127.0.0.1:8000/api/v1/rooms/${room_id.textContent}/`;
 const del_btn = document.getElementById('delete_room');
 let request_data;
-print(api_url)
-console.log(api_url);
+const input_room_name = document.getElementById('id_name');
 
-fetch(api_url, {
+window.onload = async () => {
+   await fetch(api_url, {
 
-}).then((response) => {
-    return response.json();
+}).then(async (response) => {
+    return await response.json();
 }).then((data) => {
     console.log(data);
     request_data = data;
-    const input_room_name = document.getElementById('id_name');
     input_room_name.value = data.name;
-    console.log(data.slug)
-});
+    // console.log(data.slug)
+})};
 
+const btn = document.getElementById('edit_room');
 
-form.addEventListener('submit', (e) => {
-    
-    const params = new FormData(form);
-    params.append('id', data.id);
-    params.append('name', input_room_name.value);
-    params.append('slug', input_room_name.value);
-    params.append('creator', data.creator);
-    
-    fetch(api_url, {
+btn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    let params;
+    params = {
+        'id': request_data.id,
+        'name': input_room_name.value,
+        'slug': input_room_name.value,
+        'creator': request_data.creator,
+    };
+    await fetch(api_url, {
         method: 'PUT',
-        body: params,
-    }).then((response) => {
-        return response.json();
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(params),
+    }).then(async (response) => {
+        return await response.json();
     }).then((data) => {
         console.log(data);
+        window.location.href = redirect_url;
     }).catch((err) => {
         console.log(err);
     });
@@ -43,12 +45,14 @@ form.addEventListener('submit', (e) => {
 
 
 
-
-
-del_btn.addEventListener('click', () => {
+del_btn.addEventListener('click', (e) => {
+    e.preventDefault();
     fetch(api_url, {
         method: 'DELETE',
-    }).then((response) => {
+    }).then( (response) => {
+        response.json()
+    }).then((data) => {
+        console.log(data);
         window.location.href = redirect_url;
     }).catch((err) => {
         console.log(err);

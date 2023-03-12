@@ -25,9 +25,14 @@ if (checker) {
     "ws://" + window.location.host + "/ws/api/v1/rooms/" + room + "/"
   );
   chatSocket.onopen = (e) => {
+    chatSocket.send(JSON.stringify({
+      'message': `пользователь ${username} вошел`,
+      'username': username,
+      'room': room
+    }));
     ScrollingToBottom();
   };
-
+  
   chatSocket.onmessage = function (e) {
     const data = JSON.parse(e.data);
     if (data.message) {
@@ -60,7 +65,13 @@ if (checker) {
       alert("empty");
     }
   };
-  document.querySelector("#submit").onclick = function (e) {
+  document.getElementById('input').onkeydown = (e) => {
+    if (e.code == 'Enter') {
+      console.log('ok');
+      document.getElementById('submit').click();
+    }
+  };
+  document.querySelector("#submit").onclick = (e) => {
     e.preventDefault();
     const messageInput = document.querySelector("#input")
     const message = messageInput.value;
