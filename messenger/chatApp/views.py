@@ -8,7 +8,7 @@ from .forms import RoomForm, ProfileForm, EditProfileForm
 from django.contrib.auth.models import User
 from django.conf import settings
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from rest_framework.authentication import BasicAuthentication
+
 
 
 # Create your views here.
@@ -31,7 +31,14 @@ class RoomsViewSet(ModelViewSet):
     queryset = Rooms.objects.all()
     serializer_class = RoomsSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
-    authentication_classes = (BasicAuthentication,)
+    
+    def post(self, request, format=None):
+        content = {
+            'user': str(request.user),
+            'auth': str(request.auth),
+        }
+        return Response(content)
+    
     
 
     # def retrieve(self, request, *args, **kwargs):
@@ -107,6 +114,13 @@ def rooms(request):
 def room_create(request):
     form = RoomForm
     return render(request, template_name='room_create.html', context={'form': form})
+
+@login_required
+def room_edit_delete(request, pk):
+    form = RoomForm
+    room_id = pk
+    
+    return render(request, template_name='edit_room.html', context={'form': form, 'room_id': room_id})
 
 @login_required
 def profile(request):

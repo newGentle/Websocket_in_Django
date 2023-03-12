@@ -4,7 +4,7 @@ const user_id = document.getElementById('user_id');
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     
-    params = new FormData(form)
+    let params = new FormData(form)
     params.set('id', params.get('id'));
     params.set('creator', user_id.textContent);
     params.set('slug', params.get('name'));

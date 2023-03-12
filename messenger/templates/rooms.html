@@ -34,46 +34,23 @@
             <td><a href={% url 'room' room.id %} class='btn btn-outline-secondary disabled'>Войти</a></td>
          {% endif %}
          {% if room.creator_id == request.user.id%}
-            <td class="text-end pe-3"> <a class="btn btn-outline-danger edit_room" data-bs-toggle="modal" data-bs-target="#exampleModal" data-room-name={{room.name}}>Изменить</a></td>
-            <td class="text-end pe-3"> <a id={{ room.id }} class="btn btn-outline-danger delete_room">Удалить</a></td>
+            <td class="text-end pe-3"> <a href={% url 'room_edit_delete' room.id %} class="btn btn-outline-danger">Изменить</a></td>
+            <td class="text-end pe-3"> <a href={% url 'room_edit_delete' room.id %} class="btn btn-outline-danger ">Удалить</a></td>
          {% else %}
             <td></td>
-            <td class="text-end pe-3"> <a id={{ room.id }} class="btn btn-outline-secondary disabled delete_room">Удалить</a></td>
+            <td class="text-end pe-3"> <a class="btn btn-outline-secondary disabled">Удалить</a></td>
          {% endif %}
       </tr>
    {% endfor %}
 </table>
 
-{{ request.user.username|json_script:"user_username" }}
+{% comment %} {{ request.user.username|json_script:"user_username" }} {% endcomment %}
 {% comment %} {{ chat_box_name|json_script:"box-name" }} {% endcomment %}
 
-{{ rooms|json_script:'rooms'}}
+{% comment %} {{ rooms|json_script:'rooms'}} {% endcomment %}
 {% else %}
 <h3> Нет Чат-комнат</h3>
 {% endif %}
- 
-
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-   <div class="modal-dialog">
-     <div class="modal-content">
-       <div class="modal-header">
-         <h1 class="modal-title fs-5 text-dark" id="exampleModalLabel">Изменить Имя комнаты</h1>
-         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-       </div>
-       <div class="modal-body">
-         <input type="text" id="edit_room_name">
-       </div>
-       <div class="modal-footer">
-         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-         <button type="button" class="btn btn-primary">Save changes</button>
-       </div>
-     </div>
-   </div>
- </div>
 
 
 {% endblock content %}
-{% block scripts %}
-
-<script src={% static 'js/room_delete.js' %}></script>
-{% endblock scripts %}
