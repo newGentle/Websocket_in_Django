@@ -1,1 +1,1 @@
-# module_E6.9_Homework
+# WebSocket in Django & JS
